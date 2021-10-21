@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>DEC Miners Index</title>
+    <meta name="description" content="DEC Miners Index">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <style>
+        .header {
+            display: flex;
+            font-weight: bold;
+            margin-left: 40px;
+        }
+
+        .index {
+            display: flex;
+        }
+
+        .account {
+            min-width: 150px;
+            color: lightseagreen;
+            font-weight: bold;
+        }
+
+        .dec {
+            min-width: 150px;
+            color: black;
+            display: flex;
+        }
+
+        .unit {
+            color: blue;
+            margin-left: 8px;
+        }
+
+        .rating {
+            margin-left: 50px;
+            min-width: 150px;
+        }
+        .rate {
+            min-width: 150px;
+        }
+        .quest {
+            min-width: 150px;
+        }
+        .quest-ok {
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>DEC Miners Index</h3>
+
+    <div class="header">
+        <div class="account">Account</div>
+        <div class="dec">DEC Balance</div>
+        <div class="rating">Rating</div>
+        <div class="rate">Capture Rate</div>
+        <div class="rate">Quest comleted?</div>
+    </div>
+
+    <ul id="owner1">	
+    </ul>
+	
+	<ul id="owner2">
+    </ul>
+
+    <script>
+        $(document).ready(function () {
+            const accounts = [
+                "cookiesmonster",
+                "honey-jar",
+                "salt-chili",
+                "dracona",
+                "bullstrap",
+                "blue-pepper",
+                "blue-birdy"				
+            ];
+
+            accounts.forEach(a => getdata("#owner1", a));
+			
+			const vtp = [
+				"binance-com",
+                "crypto-com",
+                "dec-miner",
+                "dec-miner1",			
+				"dec-miner2",
+				"dec-miner3",
+				"dec-miner4",
+				"dec-miner5",
+				"dec-miner6",
+				"dec-miner7",
+                "dec-miner8",
+                "dec-miner9",
+                "dec-miner10",
+                "sps.gamer2001",
+                "sps.gamer2002",
+                "sps.gamer2003",
+                "sps.gamer2004",
+                "sps.gamer2005"
+            ];
+
+            vtp.forEach(a => getdata("#owner2", a));
+        });
+
+        function getdata(owner, username) {		
+            Promise.all([
+                $.ajax({
+                    url: "https://api.splinterlands.io/players/balances?username=" + username,
+                    context: document
+                }),
+                $.ajax({
+                    url: "https://api.splinterlands.io/players/details?name=" + username,
+                    context: document
+                }),
+                $.ajax({
+                    url: "https://api.splinterlands.io/players/quests?username=" + username,
+                    context: document
+                }),                
+            ]).then((results) => {
+                const balance = results[0];
+                const playerD = results[1];
+                const quest = results[2][0];
+
+                console.log(`NHC results`, results);
+                const dec = balance?.filter(x => x.token === 'DEC')?.[0];
+                const rating = playerD.rating;
+                const rate = playerD.capture_rate / 100;
+                
+                const questStatus = quest.completed_items+'/'+quest.total_items
+                const questClass = quest.completed_items == quest.total_items ? 'quest-ok' : '';
+                if (dec) {
+                    $(owner).append(`<li><div class="index"><div class="account">${username}</div><div class="dec">${dec.balance}<div class="unit">DEC</div></div><div class="rating">${rating}</div><div class="rate">${rate}%</div><div class="quest ${questClass}">${questStatus}</div></div></li>`);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
