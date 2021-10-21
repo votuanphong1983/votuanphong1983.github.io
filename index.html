@@ -37,12 +37,15 @@
             margin-left: 50px;
             min-width: 150px;
         }
+
         .rate {
             min-width: 150px;
         }
+
         .quest {
             min-width: 150px;
         }
+
         .quest-ok {
             font-weight: bold;
             color: green;
@@ -61,37 +64,46 @@
         <div class="rate">Quest comleted?</div>
     </div>
 
-    <ul id="owner1">	
+    <ul id="owner1">
     </ul>
-	
-	<ul id="owner2">
+
+    <ul id="owner2">
     </ul>
 
     <script>
-        $(document).ready(function () {
-            const accounts = [
+        $(document).ready(async () => {
+            const hcn = [
                 "cookiesmonster",
                 "honey-jar",
                 "salt-chili",
                 "dracona",
                 "bullstrap",
                 "blue-pepper",
-                "blue-birdy"				
+                "blue-birdy",
+                "solari-fox",
+                "dracusip",
+                "doggo-wolf",
+                "minas-tirith"
             ];
 
-            accounts.forEach(a => getdata("#owner1", a));
-			
-			const vtp = [
-				"binance-com",
+            for (const account of hcn) {
+                if (account.startsWith("-")) {
+                    $("#indexes").append(`<li><div>----------------------------------------</div></li>`);
+                }
+                await getdata("#owner1", account);
+            }
+
+            const vtp = [
+                "binance-com",
                 "crypto-com",
                 "dec-miner",
-                "dec-miner1",			
-				"dec-miner2",
-				"dec-miner3",
-				"dec-miner4",
-				"dec-miner5",
-				"dec-miner6",
-				"dec-miner7",
+                "dec-miner1",
+                "dec-miner2",
+                "dec-miner3",
+                "dec-miner4",
+                "dec-miner5",
+                "dec-miner6",
+                "dec-miner7",
                 "dec-miner8",
                 "dec-miner9",
                 "dec-miner10",
@@ -102,10 +114,15 @@
                 "sps.gamer2005"
             ];
 
-            vtp.forEach(a => getdata("#owner2", a));
+            for (const account of vtp) {
+                if (account.startsWith("-")) {
+                    $("#indexes").append(`<li><div>----------------------------------------</div></li>`);
+                }
+                await getdata("#owner2", account);
+            }
         });
 
-        function getdata(owner, username) {		
+        function getdata(owner, username) {
             Promise.all([
                 $.ajax({
                     url: "https://api.splinterlands.io/players/balances?username=" + username,
@@ -118,7 +135,7 @@
                 $.ajax({
                     url: "https://api.splinterlands.io/players/quests?username=" + username,
                     context: document
-                }),                
+                }),
             ]).then((results) => {
                 const balance = results[0];
                 const playerD = results[1];
@@ -128,8 +145,8 @@
                 const dec = balance?.filter(x => x.token === 'DEC')?.[0];
                 const rating = playerD.rating;
                 const rate = playerD.capture_rate / 100;
-                
-                const questStatus = quest.completed_items+'/'+quest.total_items
+
+                const questStatus = quest.completed_items + '/' + quest.total_items
                 const questClass = quest.completed_items == quest.total_items ? 'quest-ok' : '';
                 if (dec) {
                     $(owner).append(`<li><div class="index"><div class="account">${username}</div><div class="dec">${dec.balance}<div class="unit">DEC</div></div><div class="rating">${rating}</div><div class="rate">${rate}%</div><div class="quest ${questClass}">${questStatus}</div></div></li>`);
