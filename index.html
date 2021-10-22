@@ -133,8 +133,8 @@
                 const rating = playerD.rating;
                 const rate = playerD.capture_rate / 100;
 
-                const questStatus = quest.completed_items + '/' + quest.total_items
-                const questClass = quest.completed_items == quest.total_items ? 'quest-ok' : '';
+                const questStatus = quest?.completed_items + '/' + quest?.total_items
+                const questClass = quest?.completed_items == quest?.total_items ? 'quest-ok' : '';
                 if (dec) {
                     $(owner).append(`<li><div class="index"><div class="account">${username}</div><div class="dec">${dec.balance}<div class="unit">DEC</div></div><div class="rating">${rating}</div><div class="rate">${rate}%</div><div class="quest ${questClass}">${questStatus}</div></div></li>`);
                 }
