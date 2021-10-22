@@ -62,16 +62,6 @@
 <body>
     <h3>DEC Miners Index</h3>
 
-	<div class="owner">HCN</div>
-		<div class="header">
-			<div class="account">Account</div>
-			<div class="dec">DEC Balance</div>
-			<div class="rating">Rating</div>
-			<div class="rate">Capture Rate</div>
-			<div class="rate">Quest comleted?</div>			
-		</div>	
-		<ul id="owner1"></ul>
-	</div>
     	<div class="owner">VTP</div>
 		<div class="header">
 			<div class="account">Account</div>
@@ -85,34 +75,6 @@
 
     <script>
         $(document).ready(async () => {
-            const hcn = [
-                "cookiesmonster",
-                "honey-jar",
-                "salt-chili",
-                "dracona",
-                "bullstrap",
-                "blue-pepper",
-                "blue-birdy",
-                "solari-fox",
-                "dracusip",
-                "doggo-wolf",
-                "minas-tirith",
-                "--------Standard--------",
-                "horyong",
-                "hopppy",
-                "decmac001",
-                "decmac002",
-                "decmac003"
-            ];
-
-            for (const account of hcn) {
-                if (account.startsWith("-")) {
-                    $("#owner1").append(`<li><div>${account}</div></li>`);
-                } else {
-                    await getdata("#owner1", account);
-                }
-            }
-
             const vtp = [
                 "binance-com",
                 "crypto-com",
@@ -125,16 +87,18 @@
                 "dec-miner6",
                 "dec-miner7",
                 "dec-miner8",
-				"--------Standard--------",
-                "dec-miner9",
+				"dec-miner9",
                 "dec-miner10",
+				"--------Standard--------",
                 "sps.gamer2001",
                 "sps.gamer2002",
                 "sps.gamer2003",
                 "sps.gamer2004",
                 "sps.gamer2005",
 				"sps.gamer2006",
-				"sps.gamer2007"
+				"sps.gamer2007",
+				"sps.gamer2008",
+				"sps.gamer2009"
             ];
 
             for (const account of vtp) {
