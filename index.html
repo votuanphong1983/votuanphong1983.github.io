@@ -50,25 +50,38 @@
             font-weight: bold;
             color: green;
         }
+		
+        .owner {
+            font-weight: bold;
+            color: binance-com;
+			font-size: 30px;
+        }
     </style>
 </head>
 
 <body>
     <h3>DEC Miners Index</h3>
 
-    <div class="header">
-        <div class="account">Account</div>
-        <div class="dec">DEC Balance</div>
-        <div class="rating">Rating</div>
-        <div class="rate">Capture Rate</div>
-        <div class="rate">Quest comleted?</div>
-    </div>
-
-    <ul id="owner1">
-    </ul>
-
-    <ul id="owner2">
-    </ul>
+	<div class="owner">HCN</div>
+		<div class="header">
+			<div class="account">Account</div>
+			<div class="dec">DEC Balance</div>
+			<div class="rating">Rating</div>
+			<div class="rate">Capture Rate</div>
+			<div class="rate">Quest comleted?</div>			
+		</div>	
+		<ul id="owner1"></ul>
+	</div>
+    	<div class="owner">VTP</div>
+		<div class="header">
+			<div class="account">Account</div>
+			<div class="dec">DEC Balance</div>
+			<div class="rating">Rating</div>
+			<div class="rate">Capture Rate</div>
+			<div class="rate">Quest comleted?</div>			
+		</div>	
+		<ul id="owner2"></ul>
+	</div>
 
     <script>
         $(document).ready(async () => {
@@ -112,18 +125,20 @@
                 "dec-miner6",
                 "dec-miner7",
                 "dec-miner8",
+				"--------Standard--------",
                 "dec-miner9",
                 "dec-miner10",
                 "sps.gamer2001",
                 "sps.gamer2002",
                 "sps.gamer2003",
                 "sps.gamer2004",
-                "sps.gamer2005"
+                "sps.gamer2005",
+				"sps.gamer2006"
             ];
 
             for (const account of vtp) {
                 if (account.startsWith("-")) {
-                    $("#owner2").append(`<li><div>----------------------------------------</div></li>`);
+                    $("#owner2").append(`<li><div>${account}</div></li>`);
                 } else {
                     await getdata("#owner2", account);
                 }
