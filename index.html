@@ -83,14 +83,21 @@
                 "solari-fox",
                 "dracusip",
                 "doggo-wolf",
-                "minas-tirith"
+                "minas-tirith",
+                "--------Standard--------",
+                "horyong",
+                "hopppy",
+                "decmac001",
+                "decmac002",
+                "decmac003"
             ];
 
             for (const account of hcn) {
                 if (account.startsWith("-")) {
-                    $("#indexes").append(`<li><div>----------------------------------------</div></li>`);
+                    $("#owner1").append(`<li><div>${account}</div></li>`);
+                } else {
+                    await getdata("#owner1", account);
                 }
-                await getdata("#owner1", account);
             }
 
             const vtp = [
@@ -116,14 +123,15 @@
 
             for (const account of vtp) {
                 if (account.startsWith("-")) {
-                    $("#indexes").append(`<li><div>----------------------------------------</div></li>`);
+                    $("#owner2").append(`<li><div>----------------------------------------</div></li>`);
+                } else {
+                    await getdata("#owner2", account);
                 }
-                await getdata("#owner2", account);
             }
         });
 
         function getdata(owner, username) {
-            Promise.all([
+            return Promise.all([
                 $.ajax({
                     url: "https://api.splinterlands.io/players/balances?username=" + username,
                     context: document
