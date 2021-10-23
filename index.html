@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>DEC Miners Index</title>
+    <title>DEC Miners Index</title>	
     <meta name="description" content="DEC Miners Index">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <style>
@@ -60,7 +60,8 @@
 </head>
 
 <body>
-    <h3>DEC Miners Index</h3>   
+    <h3>DEC Miners Index </h3>   
+	<h2 style="color: teal;" id="currentDate"></h2>
 		<div class="header">
 			<div class="account">Account</div>
 			<div class="dec">DEC Balance</div>
@@ -73,6 +74,7 @@
 
     <script>
         $(document).ready(async () => {
+		    ShowLocalDate();
             const vtp = [
                 "binance-com",
                 "crypto-com",
@@ -108,7 +110,11 @@
                 }
             }
         });
-
+		function ShowLocalDate(){
+			var dNow = new Date();
+			var localdate=  dNow.getFullYear()+ '-' + (dNow.getMonth()+1) + '-' + dNow.getDate() + ' ' + dNow.getHours() + ':' + dNow.getMinutes() + ':' + dNow.getSeconds();
+			$('#currentDate').html(localdate)
+		}
         function getdata(owner, username) {
             return Promise.all([
                 $.ajax({
