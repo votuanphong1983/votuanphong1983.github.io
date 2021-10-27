@@ -128,15 +128,15 @@
         function getdata(owner, username) {
             return Promise.all([
                 $.ajax({
-                    url: "https://api.splinterlands.io/players/balances?username=" + username,
+                    url: "https://game-api.splinterlands.com/players/balances?username=" + username,
                     context: document
                 }),
                 $.ajax({
-                    url: "https://api.splinterlands.io/players/details?name=" + username,
+                    url: "https://game-api.splinterlands.com/players/details?name=" + username,
                     context: document
                 }),
                 $.ajax({
-                    url: "https://api.splinterlands.io/players/quests?username=" + username,
+                    url: "https://game-api.splinterlands.com/players/quests?username=" + username,
                     context: document
                 }),
             ]).then((results) => {
