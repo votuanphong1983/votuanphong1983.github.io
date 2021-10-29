@@ -109,7 +109,7 @@
 
         $(document).ready(async () => {
             const accList = [
-                 "binance-com",
+				"binance-com",	
                 "crypto-com",
                 "dec-miner",
                 "dec-miner1",
@@ -163,7 +163,7 @@
                         const last = savedData?.data?.find(x => x.account === account);
 
                         // Calculation
-                        calculatePlayersDetail(last, data);
+						calculatePlayersDetail(last, data);
                     }
 
                     // Rendering
@@ -191,14 +191,23 @@
                     url: "https://api.splinterlands.io/players/quests?username=" + username,
                     context: document
                 }),
-                $.ajax({
-                    url: "https://api.splinterlands.io/players/details?name=" + username,
-                    context: document
-                }),
+				new Promise((resolve, reject) => {    
+					$.ajax({
+						timeout: 3000,
+						url: "https://api.splinterlands.io/players/details?name=" + username,
+						context: document,
+					    error: function(){
+							resolve({});
+						},
+						success: function(x){						
+							resolve(x);
+						},
+					})
+				})                
             ]).then((results) => {
                 const balance = results[0];
                 const quest = results[1][0];
-                const playerD = results[2];
+                const playerD = results[2] ?? {};
 
                 return {
                     account: username,
@@ -254,7 +263,13 @@
         }
 
         function calculatePlayersDetail(savedData, currentData) {
-            currentData.periodEarning = currentData.balance.balance - savedData.balance.balance;
+		    if (!currentData || !savedData) {
+			  currentData.periodEarning = 0;
+			}
+			else {
+			   currentData.periodEarning = currentData.balance.balance - savedData.balance?.balance ??0;
+			}
+			           
         }
     </script>
 </body>
