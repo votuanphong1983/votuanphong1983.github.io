@@ -198,8 +198,8 @@
                 }),
 				new Promise((resolve, reject) => {    
 					$.ajax({
-						timeout: 3000,
-						url: "https://api.splinterlands.io/players/details?name=" + username,
+						timeout: 5000,
+						url: "https://game-api.splinterlands.io/players/details?name=" + username,
 						context: document,
 					    error: function(){
 							resolve({});
