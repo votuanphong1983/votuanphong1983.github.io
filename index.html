@@ -188,17 +188,35 @@
 
         function getData(username) {
             return Promise.all([
-                $.ajax({
-                    url: "https://api.splinterlands.io/players/balances?username=" + username,
-                    context: document
-                }),
-                $.ajax({
-                    url: "https://api.splinterlands.io/players/quests?username=" + username,
-                    context: document
-                }),
 				new Promise((resolve, reject) => {    
 					$.ajax({
-						timeout: 5000,
+						timeout: 3000,
+						url: "https://game-api.splinterlands.io/players/balances?username=" + username,
+						context: document,
+					    error: function(){
+							resolve({});
+						},
+						success: function(x){						
+							resolve(x);
+						},
+					})
+				}),
+				new Promise((resolve, reject) => {    
+					$.ajax({
+						timeout: 3000,
+						url: "https://game-api.splinterlands.io/players/quests?username=" + username,
+						context: document,
+					    error: function(){
+							resolve({});
+						},
+						success: function(x){						
+							resolve(x);
+						},
+					})
+				}),
+				new Promise((resolve, reject) => {    
+					$.ajax({
+						timeout: 3000,
 						url: "https://game-api.splinterlands.io/players/details?name=" + username,
 						context: document,
 					    error: function(){
@@ -230,21 +248,19 @@
 
             const questStatus = account.quest?.completed_items + '/' + account.quest?.total_items
             const questClass = account.quest?.completed_items == account.quest?.total_items ? 'quest-ok' : '';
-
-            if (dec) {
-                const li = [];
+           
+			  const li = [];
                 const peClass = account.periodEarning > 0 ? 'ok-pe' : 'no-pe';
 				const pcClass = account.detail.collection_power >= 1000 ? 'ok-pe' : 'no-pe';
                 li.push(
                     `<div class="account" onclick="checkCards('${account.account}')">${account.account} <span class='${pcClass}'>(${account.detail.collection_power})</span></div>`,
-                    `<div class="dec">${dec.balance.toFixed(2)}<div class="unit">DEC</div></div>`,
+                    `<div class="dec">${dec?.balance.toFixed(2)}<div class="unit">DEC</div></div>`,
                     `<div class="period-earning ${peClass}">${savedData ? `${account.periodEarning.toFixed(2)} <div class="unit">DEC</div>` : ''}</div>`,
                     `<div class="rating">${rating}</div>`,
                     `<div class="rate">${rate}%</div>`,
                     `<div class="quest ${questClass}">${questStatus}</div>`
                 );
                 $('#indexes').append(`<li><div class="index">${li.join("")}</div></li>`);
-            }
         }
 
         function checkAndPersistData() {
