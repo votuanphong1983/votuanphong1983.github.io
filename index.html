@@ -109,20 +109,8 @@
 
         $(document).ready(async () => {
             const accList = [
-				"binance-com",	
-                "crypto-com",
-                "dec-miner",
-                "dec-miner1",
-                "dec-miner2",
-                "dec-miner3",
-                "dec-miner4",
-                "dec-miner5",
-                "dec-miner6",
-                "dec-miner7",
-                "dec-miner8",
-				"dec-miner9",
-                "dec-miner10",
-				"--------Standard--------",
+				"binance-com",
+				"--------BOT1--------",
                 "sps.gamer2000",
                 "sps.gamer2001",
                 "sps.gamer2002",
@@ -133,6 +121,7 @@
 				"sps.gamer2007",
 				"sps.gamer2008",
 				"sps.gamer2009",
+				"--------BOT2--------",
 				"sps.gamer2010",
 				"sps.gamer2011",
 				"sps.gamer2012",
@@ -143,9 +132,25 @@
 				"sps.gamer2017",
 				"sps.gamer2018",
 				"sps.gamer2019",
+				"--------BOT3--------",
+				"dec-miner1",
+                "dec-miner2",
+                "dec-miner3",
+                "dec-miner4",
+                "dec-miner5",
+                "dec-miner6",
+                "dec-miner7",
+                "dec-miner8",
+				"dec-miner9",
+                "dec-miner10",
+				"--------BOT4--------",
 				"sps.gamer2020",
 				"sps.gamer2021",
-				"sps.gamer2022"
+				"sps.gamer2022",
+				"sps.gamer2023",
+				"sps.gamer2024",
+				"crypto-com",
+                "dec-miner"
             ];
 
             if (savedData) {
@@ -267,7 +272,7 @@
 			  currentData.periodEarning = 0;
 			}
 			else {
-			   currentData.periodEarning = currentData.balance.balance - savedData.balance?.balance ??0;
+			   currentData.periodEarning = (currentData.balance?.balance ?? 0) - savedData.balance?.balance ?? 0;
 			}
 			           
         }
