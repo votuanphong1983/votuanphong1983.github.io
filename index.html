@@ -82,6 +82,8 @@
             color: binance-com;
             font-size: 30px;
         }
+		li { background: #CCC; }
+		li:nth-child(odd) { background: #FFF; }
     </style>
 </head>
 
@@ -96,6 +98,7 @@
         <div class="rating">Rating</div>
         <div class="rate">Capture Rate</div>
         <div class="rate">Quest comleted?</div>
+		<div class="rate">Win rate</div>
     </div>
     <ul id="indexes"></ul>
 
@@ -250,7 +253,8 @@
 
             const questStatus = account.quest?.completed_items + '/' + account.quest?.total_items
             const questClass = account.quest?.completed_items == account.quest?.total_items ? 'quest-ok' : '';
-           
+            const winRate = (account.detail.wins * 100 / account.detail.battles).toFixed(2);
+			
 			  const li = [];
                 const peClass = account.periodEarning > 0 ? 'ok-pe' : 'no-pe';
 				const pcClass = account.detail.collection_power >= 1000 ? 'ok-pe' : 'no-pe';
@@ -260,7 +264,8 @@
                     `<div class="period-earning ${peClass}">${savedData ? `${account.periodEarning.toFixed(2)} <div class="unit">DEC</div>` : ''}</div>`,
                     `<div class="rating">${rating}</div>`,
                     `<div class="rate">${rate}%</div>`,
-                    `<div class="quest ${questClass}">${questStatus}</div>`
+                    `<div class="quest ${questClass}">${questStatus}</div>`,
+					`<div class="rate">${winRate}%</div>`
                 );
                 $('#indexes').append(`<li><div class="index">${li.join("")}</div></li>`);
         }
