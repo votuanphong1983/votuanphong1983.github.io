@@ -82,17 +82,30 @@
             color: binance-com;
             font-size: 30px;
         }
+		.no-index{
+		  font-weight: bold;
+		  min-width:20px;
+		}
+		
 		li { background: #CCC; }
 		li:nth-child(odd) { background: #FFF; }
         li:hover {background-color:rgb(231 126 126 / 71%);}
+		
+		ul {
+		  list-style: none;
+		}		
+
     </style>
 </head>
 
 <body>
-    <h3>DEC Miners Index</h3>
+    <h3>DEC Miners Index</h3>	
     <button class="save-btn" style="display: none;" onclick="perisistData();"> Save </button>
-
+	<div>Total DEC: <span id="totalDecId"></span></div>
+	<div>Total DEC (exclude main acc): <span id="totalDecExId"></span></div>
+	<hr/>
     <div class="header">
+		<div class="no-index">No.</div>
         <div class="account">Account</div>
         <div class="dec">DEC</div>
 		<div class="dec">CREDITS</div>
@@ -188,7 +201,9 @@
             if (savedData) {
                 $(".pe-header").html(`Earning in ${Math.round((timestamp - savedData?.timestamp) / 60000)} mins`);
             }
-
+			var total = 0;
+			var mainDec = 0;
+			var index = 1;
             for (const account of accList) {
                 if (account.startsWith("-")) {
                     $("#indexes").append(`<li><div>${account}</div></li>`);
@@ -204,8 +219,16 @@
                     }
 
                     // Rendering
-                    renderAccount(data);
+                    renderAccount(data, index++);
+					
+					total += (data.balance?.balance || 0);
+					if (account=='binance-com') {
+						mainDec = (data.balance?.balance || 0)
+					}
                 }
+								
+				document.getElementById("totalDecId").textContent = total.toFixed(2) ;
+				document.getElementById("totalDecExId").textContent = (total - mainDec).toFixed(2) ;
             }
 
             // Check and persist data to storage
@@ -274,7 +297,7 @@
             });
         }
 
-        function renderAccount(account) {
+        function renderAccount(account, index) {
             const dec = account.balance;
 			const credits = account.creditBalance;
             const rating = account.detail.rating;
@@ -288,6 +311,7 @@
                 const peClass = account.periodEarning > 0 ? 'ok-pe' : 'no-pe';
 				const pcClass = account.detail.collection_power >= 1000 ? 'ok-pe' : 'no-pe';
                 li.push(
+					`<div class="no-index">${index}.</div>`,
                     `<div class="account" onclick="checkCards('${account.account}')">${account.account} <span class='${pcClass}'>(${account.detail.collection_power})</span></div>`,
                     `<div class="dec">${dec?.balance.toFixed(2)}<div class="unit">DEC</div></div>`,
 					`<div class="dec">${credits?.balance.toFixed(2)}</div>`,
