@@ -192,7 +192,14 @@
                 "dec-miner7",
                 "dec-miner8",
 				"dec-miner9",
-                "dec-miner10"			 		               
+                "dec-miner10",
+				"--------BOT2--------",
+                "sps.gamer2051",
+                "sps.gamer2052",
+                "sps.gamer2053",
+				"sps.gamer2054",
+				"sps.gamer2055",
+				"sps.gamer2056",
             ];
 
             if (savedData) {
@@ -203,6 +210,7 @@
 			var index = 1;
             for (const account of accList) {
                 if (account.startsWith("-")) {
+				    index = 1;
                     $("#indexes").append(`<li><div>${account}</div></li>`);
                 } else {
                     const data = await getData(account);
