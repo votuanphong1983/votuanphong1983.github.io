@@ -244,6 +244,11 @@
         function checkCards(username) {
             window.open(`https://peakmonsters.com/@${username}/cards`);
         }
+		
+		
+        function checkQuest(username) {
+            window.open(`https://peakmonsters.com/@${username}/explorer`);
+        }
 
         function getData(username) {
             return Promise.all([
@@ -322,8 +327,8 @@
                     `<div class="period-earning ${peClass}">${savedData ? `${account.periodEarning.toFixed(2)} <div class="unit">DEC</div>` : ''}</div>`,
                     `<div class="rating">${rating}</div>`,
                     `<div class="rate">${rate}%</div>`,
-                    `<div class="quest ${questClass}">${questStatus}</div>`,
-					`<div class="rate">${winRate}%</div>`
+                    `<div class="quest ${questClass}"  onclick="checkQuest('${account.account}')">${questStatus}</div>`,
+					`<div class="rate">${winRate}%</div>`					
                 );
                 $('#indexes').append(`<li><div class="index">${li.join("")}</div></li>`);
         }
