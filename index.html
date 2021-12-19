@@ -206,19 +206,29 @@
                 "dec-miner7",
                 "dec-miner8",
 				"dec-miner9",
-                "dec-miner10"									
+                "dec-miner10",
+				"--------     --------"
             ];
 
             if (savedData) {
                 $(".pe-header").html(`Earning in ${Math.round((timestamp - savedData?.timestamp) / 60000)} mins`);
             }
+			let bot = -1;
 			var total = 0;
 			var mainDec = 0;
 			var index = 1;
+			let effectiveEarning = 0;
             for (const account of accList) {
-                if (account.startsWith("-")) {
-				    index = 1;
-                    $("#indexes").append(`<li><div>${account}</div></li>`);
+                if (account.startsWith("-")) {			
+					if (bot >= 0)
+					{
+						const old = $(`#bot${bot}`).html();
+						$(`#bot${bot}`).html(`${old} (${effectiveEarning.toFixed(2)} DEC)`)						
+					}					
+					effectiveEarning = 0;
+				    index = 1;					
+					bot++;                    
+					$("#indexes").append(`<li id="bot${bot}"><span>${account}</span></li>`);
                 } else {
                     const data = await getData(account);
                     accountsInfo.push(data);
@@ -228,6 +238,7 @@
 
                         // Calculation
 						calculatePlayersDetail(last, data);
+						if (!isNaN(data.periodEarning)) effectiveEarning += data.periodEarning;
                     }
 
                     // Rendering
@@ -238,7 +249,7 @@
 						mainDec = (data.balance?.balance || 0)
 					}
                 }
-								
+
 				document.getElementById("totalDecId").textContent = total.toFixed(2) ;
 				document.getElementById("totalDecExId").textContent = (total - mainDec).toFixed(2) ;
             }
