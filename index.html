@@ -340,10 +340,32 @@
 					ecrBalance: balance?.filter(x => x.token === 'ECR')?.[0],
                     detail: playerD,
                     quest,
-					resourceCredit: playerHive.rc_manabar.current_mana*100/playerHive.max_rc
+					resourceCredit: calculateRC(playerHive)
                 };
             });
         }
+				
+		function calculateRC(playerHive) {
+			var last_mana = +playerHive.rc_manabar.current_mana;
+			var last_update_time = +playerHive.rc_manabar.last_update_time;
+			var max_mana = +playerHive.max_rc;
+			var CURRENT_UNIX_TIMESTAMP = parseInt((new Date().getTime() / 1000).toFixed(0));    			
+
+			var elapsed = CURRENT_UNIX_TIMESTAMP - last_update_time;
+			var currentMana = last_mana + elapsed * max_mana / 432000;
+
+			if (currentMana > max_mana) {
+				currentMana = max_mana;
+			}
+		  
+			//determine percentage of available mana(RC)
+			var currentManaPerc = currentMana * 100 / max_mana;
+				
+			console.log(currentManaPerc);
+
+			return currentManaPerc;
+		}
+
 
         function renderAccount(account, index) {
             const dec = account.balance;
