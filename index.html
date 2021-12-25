@@ -111,7 +111,7 @@
         <div class="period-earning pe-header">N/A</div>
         <div class="rating">Rating</div>
 		<div class="dec">CREDITS</div>
-		<div class="dec">ECR</div>
+		<div class="rate">Resource Credits</div>
         <div class="rate">Capture Rate</div>
         <div class="rate">Quest comleted?</div>
 		<div class="rate">Win rate</div>
@@ -155,7 +155,7 @@
 				"sps.gamer2022",
 				"sps.gamer2023",
 				"sps.gamer2024",
-				"--------BOT2--------",
+				"--------bot2--------",
 				"sps.gamer2025",
 				"sps.gamer2026",
 				"sps.gamer2027",
@@ -181,7 +181,7 @@
 				"sps.gamer2047",
 				"sps.gamer2048",
 				"sps.gamer2049",
-				"--------BOT5--------",
+				"--------bot5--------",
 				"sps.gamer2050",
 				"sps.gamer2051",
                 "sps.gamer2052",
@@ -270,6 +270,9 @@
         }
 
         function getData(username) {
+		
+			var hiveData = {"id":1,"jsonrpc":"2.0","method":"rc_api.find_rc_accounts","params":{"accounts":[username]}};
+			var encodedData = JSON.stringify(hiveData); 
             return Promise.all([
 				new Promise((resolve, reject) => {    
 					$.ajax({
@@ -309,11 +312,26 @@
 							resolve(x);
 						},
 					})
-				})                
+				}),
+				new Promise((resolve, reject) => {    
+					$.ajax({
+						timeout: 3000,
+						type: "POST",
+						url: "https://api.hive.blog/",		
+						data: encodedData,
+					    error: function(){
+							resolve({});
+						},
+						success: function(x){						
+							resolve(x);
+						},
+					})
+				}),         
             ]).then((results) => {
                 const balance = results[0];
                 const quest = results[1][0];
                 const playerD = results[2] ?? {};
+				const playerHive = results[3].result.rc_accounts[0] ?? {};
 
                 return {
                     account: username,
@@ -321,7 +339,8 @@
 					creditBalance: balance?.filter(x => x.token === 'CREDITS')?.[0],
 					ecrBalance: balance?.filter(x => x.token === 'ECR')?.[0],
                     detail: playerD,
-                    quest
+                    quest,
+					resourceCredit: playerHive.rc_manabar.current_mana*100/playerHive.max_rc
                 };
             });
         }
@@ -329,7 +348,7 @@
         function renderAccount(account, index) {
             const dec = account.balance;
 			const credits = account.creditBalance;
-			const ecrBalance = account.ecrBalance;
+			const ecrBalance = account.resourceCredit;
             const rating = account.detail.rating;
             const rate = account.detail.capture_rate / 100;
 
@@ -347,7 +366,7 @@
                     `<div class="period-earning ${peClass}">${savedData ? `${account.periodEarning.toFixed(2)} <div class="unit">DEC</div>` : ''}</div>`,
                     `<div class="rating">${rating}</div>`,
 					`<div class="dec">${credits?.balance.toFixed(2)}</div>`,
-					`<div class="dec">${((ecrBalance?.balance || 0)/100).toFixed(2)}%</div>`,
+					`<div class="rate">${((ecrBalance || 0)).toFixed(2)}%</div>`,
                     `<div class="rate">${rate}%</div>`,
                     `<div class="quest ${questClass}"  onclick="checkQuest('${account.account}')">${questStatus}</div>`,
 					`<div class="rate">${winRate}%</div>`					
