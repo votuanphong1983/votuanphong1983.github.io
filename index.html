@@ -318,25 +318,25 @@
 						},
 					})
 				}),
-				new Promise((resolve, reject) => {    
-					$.ajax({
-						timeout: 3000,
-						type: "POST",
-						url: "https://api.hive.blog/",		
-						data: encodedData,
-					    error: function(){
-							resolve({});
-						},
-						success: function(x){						
-							resolve(x);
-						},
-					})
-				}),         
+				<!-- new Promise((resolve, reject) => {     -->
+					<!-- $.ajax({ -->
+						<!-- timeout: 3000, -->
+						<!-- type: "POST", -->
+						<!-- url: "https://api.hive.blog/",		 -->
+						<!-- data: encodedData, -->
+					    <!-- error: function(){ -->
+							<!-- resolve({}); -->
+						<!-- }, -->
+						<!-- success: function(x){						 -->
+							<!-- resolve(x); -->
+						<!-- }, -->
+					<!-- }) -->
+				<!-- }),          -->
             ]).then((results) => {
                 const balance = results[0];
                 const quest = results[1][0];
                 const playerD = results[2] ?? {};
-				const playerHive = results[3].result.rc_accounts[0] ?? {};
+				// const playerHive = results[3].result.rc_accounts[0] ?? {};
 
                 return {
                     account: username,
@@ -346,7 +346,7 @@
 					ecrBalance: balance?.filter(x => x.token === 'ECR')?.[0],
                     detail: playerD,
                     quest,
-					resourceCredit: calculateRC(playerHive)
+					resourceCredit: 100 // calculateRC(playerHive)
                 };
             });
         }
