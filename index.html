@@ -113,7 +113,7 @@
         <div class="rating">Rating</div>
 		<div class="rate">Quest comleted?</div>
 		<div class="dec">CREDITS</div>
-		<div class="rate">Resource Credits</div>
+		<div class="rate">CHAOS</div>
         <div class="rate">Capture Rate</div>        
 		<div class="rate">Win rate</div>
     </div>
@@ -332,6 +332,7 @@
                     account: username,
                     balance: balance?.filter(x => x.token === 'DEC')?.[0],
 					spsBalance: balance?.filter(x => x.token === 'SPS')?.[0],
+					chaosBalance: balance?.filter(x => x.token === 'CHAOS')?.[0],
 					creditBalance: balance?.filter(x => x.token === 'CREDITS')?.[0],
 					ecrBalance: balance?.filter(x => x.token === 'ECR')?.[0],
                     detail: playerD,
@@ -366,6 +367,7 @@
         function renderAccount(account, index) {
             const dec = account.balance;
 			const sps = account.spsBalance;
+			const chaos = account.chaosBalance;
 			const credits = account.creditBalance;
 			const ecrBalance = account.resourceCredit;
             const rating = account.detail.rating;
@@ -387,7 +389,7 @@
                     `<div class="rating">${rating}</div>`,
 					`<div class="quest ${questClass}"  onclick="checkQuest('${account.account}')">${questStatus}</div>`,
 					`<div class="dec">${credits?.balance.toFixed(2)}</div>`,
-					`<div class="rate">${((ecrBalance || 0)).toFixed(2)}%</div>`,
+					`<div class="dec">${(chaos?.balance || 0).toFixed(2)}<div class="unit">CHAOS</div></div>`,					
                     `<div class="rate">${rate}%</div>`,                    
 					`<div class="rate">${winRate}%</div>`					
                 );
