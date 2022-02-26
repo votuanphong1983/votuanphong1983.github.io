@@ -107,12 +107,12 @@
     <div class="header">
 		<div class="no-index">No.</div>
         <div class="account">Account</div>
+		<div class="period-earning pe-header">N/A</div>
+		<div class="rating">Rating</div>
         <div class="dec">DEC</div>
-		<div class="dec">SPS</div>
-        <div class="period-earning pe-header">N/A</div>
-        <div class="rating">Rating</div>
-		<div class="rate">Quest comleted?</div>
-		<div class="dec">CREDITS</div>
+		<div class="dec">SPS</div>             
+		<div class="dec">CREDITS</div>		
+		<div class="rate">Quest comleted?</div>		
 		<div class="rate">CHAOS</div>
         <div class="rate">Capture Rate</div>        
 		<div class="rate">Win rate</div>
@@ -385,12 +385,12 @@
                 li.push(
 					`<div class="no-index">${index}.</div>`,
                     `<div class="account" onclick="checkCards('${account.account}')">${account.account} <span class='${pcClass}'>(${account.detail.collection_power})</span></div>`,
+					`<div class="period-earning ${peClass}">${savedData ? `${account.periodEarning.toFixed(2)} <div class="unit">DEC</div>` : ''}</div>`,
+					`<div class="rating">${rating}</div>`,
                     `<div class="dec">${dec?.balance.toFixed(2)}<div class="unit">DEC</div></div>`,					
-					`<div class="dec">${(sps?.balance || 0).toFixed(2)}<div class="unit">SPS</div></div>`,					
-                    `<div class="period-earning ${peClass}">${savedData ? `${account.periodEarning.toFixed(2)} <div class="unit">DEC</div>` : ''}</div>`,
-                    `<div class="rating">${rating}</div>`,
-					`<div class="quest ${questClass}"  onclick="checkQuest('${account.account}')">${questStatus}</div>`,
-					`<div class="dec">${credits?.balance.toFixed(2)}</div>`,
+					`<div class="dec">${(sps?.balance || 0).toFixed(2)}<div class="unit">SPS</div></div>`,				
+					`<div class="dec">${credits?.balance.toFixed(2)}</div>`,					
+					`<div class="quest ${questClass}"  onclick="checkQuest('${account.account}')">${questStatus}</div>`,					
 					`<div class="dec">${(chaos?.balance || 0).toFixed(2)}<div class="unit">CHAOS</div></div>`,					
                     `<div class="rate">${rate}%</div>`,                    
 					`<div class="rate">${winRate}%</div>`					
